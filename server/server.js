@@ -19,7 +19,7 @@ const commonFeatureRouter = require("./routes/common/feature-routes");
 //create a separate file for this and then import/use that file here
 
 mongoose
-  .connect("mongodb+srv://ezraodyn:ezraodyn2025@cluster0.i1eki.mongodb.net/")
+  .connect(process.env.MONGODB_URI || "mongodb+srv://ezraodyn:ezraodyn2025@cluster0.i1eki.mongodb.net/")
   .then(() => console.log("MongoDB connected"))
   .catch((error) => console.log(error));
 
@@ -28,7 +28,10 @@ const PORT = process.env.PORT || 5000;
 
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: [
+      "http://localhost:5173",
+      "https://itradersstore-client-c20dinqa2-ezra5566s-projects.vercel.app"
+    ],
     methods: ["GET", "POST", "DELETE", "PUT"],
     allowedHeaders: [
       "Content-Type",
