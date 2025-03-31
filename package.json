@@ -1,0 +1,14 @@
+{
+  "name": "itradersstore",
+  "version": "1.0.0",
+  "description": "E-commerce store with React frontend and Express backend",
+  "scripts": {
+    "dev": "concurrently \"cd client && npm run dev\" \"cd server && npm run dev\"",
+    "install-all": "npm install && cd client && npm install && cd ../server && npm install",
+    "build": "cd client && npm run build",
+    "start": "cd server && npm start"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

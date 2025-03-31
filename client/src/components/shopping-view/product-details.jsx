@@ -12,11 +12,13 @@ import { Label } from "../ui/label";
 import StarRatingComponent from "../common/star-rating";
 import { useEffect, useState } from "react";
 import { addReview, getReviews } from "@/store/shop/review-slice";
+import LoginPromptDialog from "@/components/shopping-view/login-prompt-dialog";
 
 function ProductDetailsDialog({ open, setOpen, productDetails }) {
   console.log(productDetails)
   const [reviewMsg, setReviewMsg] = useState("");
   const [rating, setRating] = useState(0);
+  const [openLoginPrompt, setOpenLoginPrompt] = useState(false);
   const dispatch = useDispatch();
   const { user } = useSelector((state) => state.auth);
   const { cartItems } = useSelector((state) => state.shopCart);
@@ -31,6 +33,11 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
   }
 
   function handleAddToCart(getCurrentProductId, getTotalStock) {
+    if (!user) {
+      setOpenLoginPrompt(true);
+      return;
+    }
+
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -218,6 +225,10 @@ function ProductDetailsDialog({ open, setOpen, productDetails }) {
           </div>
         </div>
       </DialogContent>
+      <LoginPromptDialog 
+        open={openLoginPrompt}
+        setOpen={setOpenLoginPrompt}
+      />
     </Dialog>
   );
 }

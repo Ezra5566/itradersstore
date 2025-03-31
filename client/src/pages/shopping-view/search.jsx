@@ -11,10 +11,12 @@ import {
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useSearchParams } from "react-router-dom";
+import LoginPromptDialog from "@/components/shopping-view/login-prompt-dialog";
 
 function SearchProducts() {
   const [keyword, setKeyword] = useState("");
   const [openDetailsDialog, setOpenDetailsDialog] = useState(false);
+  const [openLoginPrompt, setOpenLoginPrompt] = useState(false);
   const [searchParams, setSearchParams] = useSearchParams();
   const dispatch = useDispatch();
   const { searchResults } = useSelector((state) => state.shopSearch);
@@ -37,7 +39,11 @@ function SearchProducts() {
   }, [keyword]);
 
   function handleAddtoCart(getCurrentProductId, getTotalStock) {
-    console.log(cartItems);
+    if (!user) {
+      setOpenLoginPrompt(true);
+      return;
+    }
+
     let getCartItems = cartItems.items || [];
 
     if (getCartItems.length) {
@@ -113,6 +119,11 @@ function SearchProducts() {
         open={openDetailsDialog}
         setOpen={setOpenDetailsDialog}
         productDetails={productDetails}
+      />
+      
+      <LoginPromptDialog 
+        open={openLoginPrompt}
+        setOpen={setOpenLoginPrompt}
       />
     </div>
   );
